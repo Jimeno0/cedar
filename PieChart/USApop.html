@@ -1,0 +1,48 @@
+	<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title>Pie Chart Sample</title>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+
+		</head>
+		<body>
+			<h1>USA region Population</h1>
+			<div id="chart"></div>
+			
+		</body>
+		<script> 
+		debugger 
+		  var chart = new Cedar({"type":"pie"});
+		  var dataset = {
+		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/EmergencyFacilities/FeatureServer/0",
+		    "query": {
+		      "orderByFields": "capacity_SUM DESC",
+		      "groupByFieldsForStatistics": "factype",
+		      "outStatistics": [{
+		        "statisticType": "sum", 
+		        "onStatisticField": "capacity", 
+		        "outStatisticFieldName": "capacity_SUM"
+		      }]
+		    },    
+		    "mappings":{
+		      "label": {"field":"factype","label":"SubRegion"},
+		      "y": {"field":"capacity_SUM","label":"Total Students"},
+		      "radius": 270
+		    }
+		  };
+		  chart.dataset = dataset;
+		  chart.tooltip = {
+		    "title": "{factype} postcode",
+		    "content": "{capacity_SUM} students"
+		  }
+		  chart.show({
+		    elementId: "#chart",
+		    width: 600,
+		    height: 600,
+		    autolabels: false
+		  });  
+		</script>
+
+	</html>

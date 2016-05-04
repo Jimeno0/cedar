@@ -1,0 +1,47 @@
+	<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title>Pie Chart Sample</title>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+
+		</head>
+		<body>
+			<h1>Pie Chart Example</h1>
+			<div id="chart"></div>
+			
+		</body>
+		<script>  
+		  var chart = new Cedar({"type":"pie"});
+		  var dataset = {
+		    "url":"https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
+		    "query": {
+		      "orderByFields": "Number_of_SUM DESC",
+		      "groupByFieldsForStatistics": "Zip",
+		      "outStatistics": [{
+		        "statisticType": "sum", 
+		        "onStatisticField": "Number_of", 
+		        "outStatisticFieldName": "Number_of_SUM"
+		      }]
+		    },    
+		    "mappings":{
+		      "label": {"field":"Zip","label":"ZIP Code"},
+		      "y": {"field":"Number_of_SUM","label":"Total Students"},
+		      "radius": 270
+		    }
+		  };
+		  chart.dataset = dataset;
+		  chart.tooltip = {
+		    "title": "{Zip} postcode",
+		    "content": "{Number_of_SUM} students"
+		  }
+		  chart.show({
+		    elementId: "#chart",
+		    width: 600,
+		    height: 600,
+		    autolabels: false
+		  });  
+		</script>
+
+	</html>

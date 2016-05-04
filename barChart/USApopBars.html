@@ -1,0 +1,54 @@
+	<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title>Bar Chart Sample</title>
+  <script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+
+
+		</head>
+		<body>
+			<h1>Bar Chart Example</h1>
+			<div id="chart"></div>
+			
+		</body>
+		<script>
+		  //create a cedar chart using the known 'bar' type
+		  // this is the same as passing {"specification": "path/to/cedar/charts/bar.json"}
+		  var chart = new Cedar({"type": "bar"});
+
+		  //create the dataset w/ mappings
+		  var dataset = {
+		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0",
+		    // "query": {
+		    //   "groupByFieldsForStatistics": "st",
+		    //   "outStatistics": [{
+		    //     "statisticType": "sum",
+		    //     "onStatisticField": "pop2000",
+		    //     "outStatisticFieldName": "TOTAL_STUD_SUM"
+		    //   }]
+		    // },
+		    "mappings":{
+		      "sort": "st",
+		      "x": {"field":"st","label":"st"},
+		      "y": {"field":"pop2000","label":"State population"}
+		    }
+		  };
+		    chart.tooltip = {
+			    "title": "{st}",
+			    "content": "{pop2000} people in {areaname}"
+			  }
+
+		  //assign to the chart
+		  chart.dataset = dataset;
+
+		  //show the chart
+		  chart.show({
+		    elementId: "#chart",
+		    renderer: "svg",
+		    "height": 500
+		  });
+		</script>
+
+	</html>
