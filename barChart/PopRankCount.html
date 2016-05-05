@@ -1,0 +1,68 @@
+	<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title>Bar Chart Sample</title>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+
+
+		</head>
+		<body>
+			<h1>Bar Chart Example</h1>
+			<div id="chart"></div>
+			
+		</body>
+			<script>
+			 debugger
+			 //var serviceUrl = "http://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Education_WebMercator/MapServer/5",
+			 //	xField = "ZIP_CODE",
+			 //	yField = "TOTAL_STUD",
+			 //	toolTipTitle = "{ZIP_CODE}";
+
+			var serviceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/SampleWorldCities/MapServer/0",
+				xField = "POP_RANK",
+				yField = "POP",
+				toolTipTitle = "{POP_RANK}";
+
+            
+              
+				var chart = new Cedar({
+				  "type": "bar",
+				  "dataset": {
+				    "url":serviceUrl,
+				     "query": {
+				      "groupByFieldsForStatistics": xField,
+				       //"outStatistics": [{
+				       //"statisticType": "sum", 
+				       //"onStatisticField": yField, 
+				       //"outStatisticFieldName": "TOTAL_STUD_SUM"
+				      //}] 
+                        "outStatistics":[{
+                        "statisticType":"count",
+                        "onStatisticField":"OBJECTID",
+                        "outStatisticFieldName":"Count"
+                        }]
+                       
+				    },
+				    "mappings":{
+				      "x": {"field":xField,"label":"Facility Use"},
+				      "y": {"field":"Count","label":"Total Students"}
+                      				      
+                    }
+				  },
+				  "tooltip": {
+				    "id": "tooltip-url",
+				    "title": toolTipTitle,
+				    "content": "{Count} Students in " + toolTipTitle
+				  }
+				});
+
+				  //show the chart
+				  chart.show({
+				    elementId: "#chart",
+				    autolabels: true
+				  });
+			</script>
+
+	</html>

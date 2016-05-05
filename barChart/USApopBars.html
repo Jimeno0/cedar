@@ -20,24 +20,24 @@
 
 		  //create the dataset w/ mappings
 		  var dataset = {
-		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0",
-		    // "query": {
-		    //   "groupByFieldsForStatistics": "st",
-		    //   "outStatistics": [{
-		    //     "statisticType": "sum",
-		    //     "onStatisticField": "pop2000",
-		    //     "outStatisticFieldName": "TOTAL_STUD_SUM"
-		    //   }]
-		    // },
+		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+			// "query": {
+			//       "groupByFieldsForStatistics": "sub_region",
+			//       "outStatistics": [{
+			//         "statisticType": "sum",
+			//         "onStatisticField": "pop2000",
+			//         "outStatisticFieldName": "TOTAL_STUD_SUM"
+			//       }]
+			//     },
 		    "mappings":{
-		      "sort": "st",
-		      "x": {"field":"st","label":"st"},
+		      "sort": "sub_region",
+		      "x": {"field":"sub_region","label":"sub_region"},
 		      "y": {"field":"pop2000","label":"State population"}
 		    }
 		  };
 		    chart.tooltip = {
-			    "title": "{st}",
-			    "content": "{pop2000} people in {areaname}"
+			    "title": "{sub_region}",
+			    "content": "{pop2000} people in {state_name}"
 			  }
 
 		  //assign to the chart

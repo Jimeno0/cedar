@@ -13,29 +13,31 @@
 			
 		</body>
 		<script> 
-		debugger 
+		// debugger 
 		  var chart = new Cedar({"type":"pie"});
 		  var dataset = {
-		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/EmergencyFacilities/FeatureServer/0",
+		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+		    "group": "sub_region",
 		    "query": {
-		      "orderByFields": "capacity_SUM DESC",
-		      "groupByFieldsForStatistics": "factype",
+		      "where": "CHARTER='Y'",
+		      "groupByFieldsForStatistics": "sub_region",
 		      "outStatistics": [{
 		        "statisticType": "sum", 
-		        "onStatisticField": "capacity", 
-		        "outStatisticFieldName": "capacity_SUM"
+		        "onStatisticField": "pop2000", 
+		        "outStatisticFieldName": "pop2000_SUM"
 		      }]
 		    },    
 		    "mappings":{
-		      "label": {"field":"factype","label":"SubRegion"},
-		      "y": {"field":"capacity_SUM","label":"Total Students"},
+		      "sort": "sub_region",
+		      "label": {"field":"state_name","label":"SubRegion"},
+		      "y": {"field":"pop2000","label":"Total Students"},
 		      "radius": 270
 		    }
 		  };
 		  chart.dataset = dataset;
 		  chart.tooltip = {
-		    "title": "{factype} postcode",
-		    "content": "{capacity_SUM} students"
+		    "title": "{sub_region}",
+		    "content": "Population: {pop2000}"
 		  }
 		  chart.show({
 		    elementId: "#chart",

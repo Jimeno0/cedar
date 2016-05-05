@@ -2,9 +2,9 @@
 		<head>
 		    <meta charset="UTF-8">
 		    <title>Bar Chart Sample</title>
-  <script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
-<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
-<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
 
 
 		</head>
@@ -13,38 +13,50 @@
 			<div id="chart"></div>
 			
 		</body>
-					<script>
-			debugger
-			  //create a cedar chart using the known 'bar' type
-			  // this is the same as passing {"specification": "path/to/cedar/charts/bar.json"}
-			  var chart = new Cedar({"type": "bar"});
+			<script>
+			// debugger
+			// var serviceUrl = "http://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Education_WebMercator/MapServer/5",
+			// 	xField = "ZIP_CODE",
+			// 	yField = "TOTAL_STUD",
+			// 	toolTipTitle = "{ZIP_CODE}";
 
-			  //create the dataset w/ mappings
-			  var dataset = {
-			    "url":"http://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Education_WebMercator/MapServer/5",
-			    "query": {
-			      "groupByFieldsForStatistics": "FACUSE",
-			      "outStatistics": [{
-			        "statisticType": "sum",
-			        "onStatisticField": "TOTAL_STUD",
-			        "outStatisticFieldName": "TOTAL_STUD_SUM"
-			      }]
-			    },
-			    "mappings":{
-			      "sort": "TOTAL_STUD_SUM DESC",
-			      "x": {"field":"FACUSE","label":"Facuse"},
-			      "y": {"field":"TOTAL_STUD_SUM","label":"Total Students"}
-			    }
-			  };
+			var serviceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+				xField = "state_name",
+				yField = "pop2000",
+				toolTipTitle = "{state_name}";
 
-			  //assign to the chart
-			  chart.dataset = dataset;
 
-			  //show the chart
-			  chart.show({
-			    elementId: "#chart",
-			    "height": 700
-			  });
+
+				var chart = new Cedar({
+				  "type": "bar",
+				  "dataset": {
+				    "url":serviceUrl,
+				    // "query": {
+				    //   "groupByFieldsForStatistics": xField,
+				    //   "outStatistics": [{
+				    //     "statisticType": "sum", 
+				    //     "onStatisticField": yField, 
+				    //     "outStatisticFieldName": "TOTAL_STUD_SUM"
+				    //   }]
+				    // },
+				    "mappings":{
+				      "x": {"field":"sub_region","label":"Facility Use"},
+				      "y": {"field":yField,"label":"Total Students"},
+				       "group": {"field":"sub_region","label":"sub_region"}
+				    }
+				  },
+				  "tooltip": {
+				    "id": "tooltip-url",
+				    "title": toolTipTitle,
+				    "content": "{pop2000} Students in {state_name}"
+				  }
+				});
+
+				  //show the chart
+				  chart.show({
+				    elementId: "#chart",
+				    autolabels: true
+				  });
 			</script>
 
 	</html>

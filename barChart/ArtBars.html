@@ -1,0 +1,51 @@
+	<html>
+		<head>
+		    <meta charset="UTF-8">
+		    <title>Bar Chart Sample</title>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+			<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+
+
+		</head>
+		<body>
+			<h1>Art in Washington</h1>
+			<div id="chart"></div>
+			
+		</body>
+			<script>
+			 debugger
+			 var serviceUrl = "http://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Cultural_and_Society_WebMercator/MapServer/51",
+			 	 xField = "ART_TYPE",
+			 	toolTipTitle = "{ART_TYPE}";           
+              
+				var chart = new Cedar({
+				  "type": "bar",
+				  "dataset": {
+				    "url":serviceUrl,
+				     "query": {
+				      "groupByFieldsForStatistics": xField,
+                        "outStatistics":[{
+                        "statisticType":"count",
+                        "onStatisticField":"OBJECTID",
+                        "outStatisticFieldName":"Count"
+                        }]                      
+				    },
+				    "mappings":{
+				      "x": {"field":xField,"label":"Art tipe"},
+				      "y": {"field":"Count","label":""}                   				      
+                    }
+				  },
+				  "tooltip": {
+				    "id": "tooltip-url",
+				    "title": toolTipTitle,
+				    "content": "{Count} Art works"
+				  }
+				});
+				  //show the chart
+				  chart.show({
+				    elementId: "#chart",
+				    renderer: "svg",
+				    autolabels: true
+				  });
+			</script>
