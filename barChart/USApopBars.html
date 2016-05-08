@@ -1,54 +1,57 @@
-	<html>
-		<head>
-		    <meta charset="UTF-8">
-		    <title>Bar Chart Sample</title>
-  <script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
-<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
-<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
+<html>
+	<head>
+	    <meta charset="UTF-8">
+	    <title>Bar Chart Sample</title>
+	<script type="text/javascript" src="//esri.github.io/cedar/js/d3.min.js"></script>
+	<script type="text/javascript" src="//esri.github.io/cedar/js/vega.js"></script>
+	<script type="text/javascript" src="//esri.github.io/cedar/js/cedar.js"></script>
 
 
-		</head>
-		<body>
-			<h1>Bar Chart Example</h1>
-			<div id="chart"></div>
-			
-		</body>
+	</head>
+	<body>
+		<h1>Bar Chart Example</h1>
+		<div id="chart"></div>
 		<script>
-		  //create a cedar chart using the known 'bar' type
-		  // this is the same as passing {"specification": "path/to/cedar/charts/bar.json"}
-		  var chart = new Cedar({"type": "bar"});
+		//FISRT COUPLE OF VARS
+		// var serviceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0",
+		// 	SummarizedField = "st";
 
-		  //create the dataset w/ mappings
-		  var dataset = {
-		    "url":"http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
-			// "query": {
-			//       "groupByFieldsForStatistics": "sub_region",
-			//       "outStatistics": [{
-			//         "statisticType": "sum",
-			//         "onStatisticField": "pop2000",
-			//         "outStatisticFieldName": "TOTAL_STUD_SUM"
-			//       }]
-			//     },
+		//SECOND COUPLE OF VARS
+		var serviceUrl = "http://maps2.dcgis.dc.gov/dcgis/rest/services/SampleWorldCities/MapServer/0",
+			SummarizedField = "POP_CLASS";
+
+		//TIRTH COUPLE OF VARS
+		// var serviceUrl = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2",
+		// 	SummarizedField = "sub_region";	
+		
+		//FOURTH COUPLE OF VARS
+		// var serviceUrl = "https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
+		// 	SummarizedField = "Type";	
+		
+
+		var chart = new Cedar({"type": "bar"});
+		var dataset = {
+		    "url":serviceUrl,
+			"query": {
+			    "groupByFieldsForStatistics": SummarizedField,
+			    "outStatistics": [{
+			      "statisticType": "count", 
+			      "onStatisticField": "objectid", //FID instead of objectid in the Fourth couple of vars
+			      "outStatisticFieldName": "count_SUM"
+			    }]
+			  }, 
 		    "mappings":{
-		      "sort": "sub_region",
-		      "x": {"field":"sub_region","label":"sub_region"},
-		      "y": {"field":"pop2000","label":"State population"}
+		      "sort": "count_SUM DESC",
+		      "x": {"field":SummarizedField,"label":SummarizedField},
+		      "y": {"field":"count_SUM","label":"Number of cities"}
 		    }
 		  };
-		    chart.tooltip = {
-			    "title": "{sub_region}",
-			    "content": "{pop2000} people in {state_name}"
-			  }
-
-		  //assign to the chart
 		  chart.dataset = dataset;
-
-		  //show the chart
 		  chart.show({
 		    elementId: "#chart",
-		    renderer: "svg",
-		    "height": 500
+		    autolabels: true
 		  });
-		</script>
+		</script>	
+	</body>
 
-	</html>
+</html>

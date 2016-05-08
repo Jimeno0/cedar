@@ -16,29 +16,28 @@
 		  var chart = new Cedar({"type":"pie"});
 		  var dataset = {
 		    "url":"https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
-		    // "query": {
-		    //   "orderByFields": "Number_of_SUM DESC",
-		    //   "groupByFieldsForStatistics": "Zip",
-		    //   "outStatistics": [{
-		    //     "statisticType": "sum", 
-		    //     "onStatisticField": "Number_of", 
-		    //     "outStatisticFieldName": "Number_of_SUM"
-		    //   }]
-		    // },    
+		    "query": {
+		      "orderByFields": "Number_of_SUM DESC",
+		      "groupByFieldsForStatistics": "Zip",
+		      "outStatistics": [{
+		        "statisticType": "sum", 
+		        "onStatisticField": "Number_of", 
+		        "outStatisticFieldName": "Number_of_SUM"
+		      }]
+		    },    
 		    "mappings":{
 		      "label": {"field":"Zip","label":"ZIP Code"},
-		      "y": {"field":"pop2000","label":"Total Students"},
+		      "y": {"field":"Number_of_SUM","label":"Total Students"},
 		      "radius": 270
 		    }
 		  };
 		  chart.dataset = dataset;
 		  chart.tooltip = {
 		    "title": "{Zip} postcode",
-		    "content": "{Number_of_SUM} students"
+		    "content": " students"
 		  }
 		  chart.show({
 		    elementId: "#chart",
-		    width: 600,
 		    height: 600,
 		    autolabels: false
 		  });  
